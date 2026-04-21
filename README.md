@@ -1,4 +1,4 @@
-### This is an overview of the current projects within the repository. Detailed documentation is available in the documentation file.
+### This is an overview of the current projects within the repository. Detailed documentation is available in the DOCUMENTATION.md file.
 
 ## Digital Twinning – Adaptive Belt Monitoring. SIEMENS Internship Graduation Project.
 
