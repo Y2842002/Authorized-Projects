@@ -12,7 +12,7 @@ Key features include:
 
 The project emphasizes robust system design, structured debugging, and compliance with industrial automation standards.
 
-## CubeSat Flight Software
+## CubeSat Flight Software - University Graduation Project (Software aspect)
 
 This project implements a basic flight software structure for a CubeSat on an esp32, focusing on core embedded system functionalities.
 
