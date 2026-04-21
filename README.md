@@ -2,7 +2,7 @@
 
 ## Digital Twinning – Adaptive Belt Monitoring
 
-This project focuses on the development of an intelligent belt monitoring system for industrial applications. The system continuously analyzes belt behavior (such as speed, tension, and anomalies) and adapts dynamically to changing operating conditions.
+This project focuses on developing an intelligent belt-monitoring system for industrial applications. The system continuously analyzes belt behavior (such as speed, tension, and anomalies) and adapts dynamically to changing operating conditions.
 
 Key features include:
 - Real-time data acquisition from sensors
@@ -22,9 +22,9 @@ Key features include:
 - Communication interface simulation (sending/receiving data)
 - Interaction with simulated onboard subsystems
 
-## PWM Drawer.
+## PWM Drawer - Embedded Systems Diploma Graduation Project.
 
-This project is a visualization and signal generation tool for Pulse Width Modulation (PWM). It allows users to generate, analyze, and understand PWM signals in a clear and interactive way .
+This project is a visualization and signal generation tool for Pulse Width Modulation (PWM). It allows users to generate, analyze, and understand PWM signals clearly and interactively.
 
 Key features include:
 - Generation of PWM signals with adjustable duty cycle and frequency
