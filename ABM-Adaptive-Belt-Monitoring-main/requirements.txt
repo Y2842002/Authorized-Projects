@@ -1,0 +1,12 @@
+# ABM - Adaptive Belt Monitoring: Inference Engine Dependencies
+# Python 3.8+ required
+
+# Core ML Libraries
+numpy==1.24.3
+scikit-learn==1.3.0
+
+#joblib==1.3.2
+#pandas==2.0.3
+
+# MQTT Communication (for Unity)
+paho-mqtt==1.6.1

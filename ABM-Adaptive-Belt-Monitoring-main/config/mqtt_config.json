@@ -1,0 +1,36 @@
+{
+  "development": {
+    "broker": "broker.hivemq.com",
+    "port": 1883,
+    "use_tls": false,
+    "username": "",
+    "password": "",
+    "topics": {
+      "command": "unity/motor/command",
+      "status": "unity/motor/status"
+    }
+  },
+  "production": {
+    "broker": "your-cluster.s1.eu.hivemq.cloud",
+    "port": 8883,
+    "use_tls": true,
+    "username": "your-username",
+    "password": "your-password",
+    "topics": {
+      "command": "unity/motor/command",
+      "status": "unity/motor/status"
+    }
+  },
+  "testing": {
+    "broker": "test.mosquitto.org",
+    "port": 1883,
+    "use_tls": false,
+    "username": "",
+    "password": "",
+    "topics": {
+      "command": "unity/motor/test/command",
+      "status": "unity/motor/test/status"
+    }
+  },
+  "active_environment": "development"
+}

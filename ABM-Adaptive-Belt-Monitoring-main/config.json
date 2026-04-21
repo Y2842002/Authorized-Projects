@@ -1,0 +1,51 @@
+{
+  "mqtt": {
+  "broker": "broker.hivemq.com",
+  "port": 1883,
+  "topics": {
+    "command": "unity/motor/command",
+    "status": "unity/motor/status",
+    "machine_on": "parallax/MACHINE_ON",
+    "machine_off": "parallax/MACHINE_OFF"
+   },
+    "client_id": "motor_inference_engine",
+    "keepalive": 60,
+    "qos": 0,
+    "retain": false
+  },
+  "system": {
+    "name": "Belt Monitoring Inference Engine",
+    "version": "1.0.0",
+    "mode": "POC",
+    "log_level": "INFO"
+  },
+  "scenarios": {
+    "approach_1": [
+      "loose_unstable_good",
+      "optimal_stable_good",
+      "optimal_unstable_warning",
+      "tight_stable_critical"
+    ],
+    "approach_2": [
+      "adjustment_loose",
+      "adjustment_optimal",
+      "adjustment_tight"
+    ]
+  },
+  "models": {
+    "path": "models/",
+    "required": false,
+    "files": [
+      "stability_energy_model.pkl",
+      "se_computer (1).pkl",
+      "feature_extractor(3) (1).pkl",
+      "feature_scaler(3) (1).pkl",
+      "tension_classifier(3) (1).pkl"
+    ]
+  },
+  "unity": {
+    "timeout": 30,
+    "reconnect_delay": 5,
+    "max_reconnect_attempts": 10
+  }
+}

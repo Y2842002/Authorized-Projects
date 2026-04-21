@@ -1,0 +1,56 @@
+{
+  "model_info": {
+    "stability_model": {
+      "path": "Assets/Models/stability_model.onnx",
+      "type": "RandomForestClassifier",
+      "input_features": 3,
+      "feature_names": [
+        "vib_intensity",
+        "dom_freq",
+        "spec_entropy"
+      ],
+      "output_classes": [
+        "Unstable",
+        "Stable"
+      ],
+      "class_mapping": {
+        "0": "Unstable",
+        "1": "Stable"
+      }
+    },
+    "tension_model": {
+      "path": "Assets/Models/tension_model.onnx",
+      "type": "RandomForestClassifier",
+      "input_features": 3,
+      "feature_names": [
+        "vib_intensity",
+        "dom_freq",
+        "spec_entropy"
+      ],
+      "output_classes": [
+        "Loose",
+        "Optimal",
+        "Tight"
+      ],
+      "class_mapping": {
+        "0": "Loose",
+        "1": "Optimal",
+        "2": "Tight"
+      }
+    }
+  },
+  "baseline_energy": 4748.853552080422,
+  "feature_extraction": {
+    "sampling_rate": 3333,
+    "window_size": "from sensor data",
+    "features": {
+      "vib_intensity": "sqrt(mean(acc_z^2))",
+      "dom_freq": "FFT dominant frequency",
+      "spec_entropy": "Spectral entropy of acc_z"
+    }
+  },
+  "thresholds": {
+    "energy_health_warning": 4036.5255192683585,
+    "energy_health_critical": 3324.197486456295
+  }
+}
