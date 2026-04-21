@@ -1,4 +1,4 @@
-### This is an overview of the current projects within the repository. Detailed documentation is available in the DOCUMENTATION.md file.
+### This is an overview of the current projects within the repository. Detailed documentation is available in the DOCUMENTATION.md file within the Projects.
 
 ## Digital Twinning – Adaptive Belt Monitoring. SIEMENS Internship Graduation Project.
 
@@ -33,3 +33,17 @@ Key features include:
 - Educational and debugging utility for embedded systems development
 
 The project demonstrates understanding of signal generation, timing control, and embedded system fundamentals.
+
+## Smart IoT Project – Home Automation System
+
+This project involves creating a smart IoT-based home automation system that allows users to control and monitor various devices (lights, temperature, security systems) remotely through a web or mobile interface.
+
+Key features include:
+
+- Integration with various IoT devices (sensors, actuators)
+- Remote control via web/mobile application
+- Real-time monitoring of home environment parameters (temperature, humidity, motion)
+- Automated routines based on environmental conditions (e.g., turn on lights when motion is detected)
+- Secure communication protocols for device control and data transmission
+
+The project emphasizes the use of IoT technologies, secure communication, and real-time data processing.
