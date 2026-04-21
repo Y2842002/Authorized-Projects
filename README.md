@@ -1,4 +1,5 @@
-### This is an OVERVIEW of the Current Projects within the Repo - Detailed Documentation is presented at the Documentation File.
+This is an overview of the current projects within the repository. Detailed documentation is available in the documentation file.
+
 ## Digital Twinning – Adaptive Belt Monitoring
 
 This project focuses on the development of an intelligent belt monitoring system for industrial applications. The system continuously analyzes belt behavior (such as speed, tension, and anomalies) and adapts dynamically to changing operating conditions.
