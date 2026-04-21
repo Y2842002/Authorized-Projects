@@ -1,4 +1,4 @@
-## ABM – Adaptive Belt Monitoring
+## Digital Twinning – Adaptive Belt Monitoring
 
 This project focuses on the development of an intelligent belt monitoring system for industrial applications. The system continuously analyzes belt behavior (such as speed, tension, and anomalies) and adapts dynamically to changing operating conditions.
 
@@ -12,7 +12,7 @@ The project emphasizes robust system design, structured debugging, and complianc
 
 ## CubeSat Flight Software
 
-This project implements a basic flight software structure for a CubeSat, focusing on core embedded system functionalities.
+This project implements a basic flight software structure for a CubeSat on an esp32, focusing on core embedded system functionalities.
 
 Key features include:
 - Simple task management (bare-metal or lightweight scheduling)
@@ -20,9 +20,9 @@ Key features include:
 - Communication interface simulation (sending/receiving data)
 - Interaction with simulated onboard subsystems
 
-## PWM Drawer
+## PWM Drawer.
 
-This project is a visualization and signal generation tool for Pulse Width Modulation (PWM). It allows users to generate, analyze, and understand PWM signals in a clear and interactive way.
+This project is a visualization and signal generation tool for Pulse Width Modulation (PWM). It allows users to generate, analyze, and understand PWM signals in a clear and interactive way .
 
 Key features include:
 - Generation of PWM signals with adjustable duty cycle and frequency
