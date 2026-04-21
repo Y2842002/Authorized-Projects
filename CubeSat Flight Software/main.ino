@@ -1,0 +1,221 @@
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BMP280.h>
+#include <DHT.h>
+#include <TinyGPS++.h>
+#include <Adafruit_TSL2561_U.h>
+#include "ML8511.h"
+
+// Sensor Configuration
+#ifndef SENSORS_CONFIGURATIONS
+
+#define DHTPIN 15        // GPIO15 for DHT22
+#define DHTTYPE DHT22    // DHT22 (AM2302)
+
+#define BMP_CS 5         // BMP280 Chip Select 
+
+#define MPU_ADDR 0x68    // MPU-6050 I2C address
+#define GPS_BAUDRATE 9600
+#define GPS_RX_PIN 16    // GPIO16 for Serial2 RX
+#define GPS_TX_PIN 17    // GPIO17 for Serial2 TX
+
+#define TSL2561_ADDR 0x39 // TSL2561 I2C address
+#define ML8511_PIN 34    // GPIO34 for ML8511 analog output
+#define ML8511_ENABLE 14 // GPIO14 for ML8511 enable (optional)
+
+#endif
+
+// Sensor objects
+DHT dht(DHTPIN, DHTTYPE);
+Adafruit_BMP280 bmp(BMP_CS);  // Using hardware SPI
+TinyGPSPlus gps;
+Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR, 12345);
+ML8511 uv(ML8511_PIN, ML8511_ENABLE);
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial);  // Wait for serial monitor
+
+  // Initialize sensors
+  initializeDHT();
+  initializeBMP();
+  initializeMPU();
+  initializeGPS();
+  initializeTSL2561();
+  initializeML8511();
+
+  Serial.println(F("All sensors initialized"));
+  Serial.print(F("ML8511 Library Version: "));
+  Serial.println(ML8511_LIB_VERSION);
+  Serial.print(F("Free Memory: "));
+  Serial.print(ESP.getFreeHeap());
+  Serial.println(F(" bytes"));
+}
+
+void loop() {
+  static uint32_t lastUpdate = 0;
+  if (millis() - lastUpdate >= 2000) {  // Update every 2 seconds
+    lastUpdate = millis();
+    readAndDisplaySensors();
+  }
+
+  // Process GPS data continuously
+  while (Serial2.available() > 0) {
+    gps.encode(Serial2.read());
+  }
+}
+
+void initializeDHT() {
+  dht.begin();
+  Serial.println(F("DHT22 initialized"));
+}
+
+void initializeBMP() {
+  if (!bmp.begin()) {
+    Serial.println(F("BMP280 not found! Check wiring."));
+    while (1) delay(10);
+  }
+  
+  bmp.setSampling(
+    Adafruit_BMP280::MODE_NORMAL,
+    Adafruit_BMP280::SAMPLING_X2,
+    Adafruit_BMP280::SAMPLING_X16,
+    Adafruit_BMP280::FILTER_X16,
+    Adafruit_BMP280::STANDBY_MS_500
+  );
+  Serial.println(F("BMP280 initialized"));
+}
+
+void initializeMPU() {
+  Wire.begin(21, 22);  // SDA=GPIO21, SCL=GPIO22
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(0x6B);    // PWR_MGMT_1 register
+  Wire.write(0);       // Wake up MPU-6050
+  Wire.endTransmission(true);
+  Serial.println(F("MPU-6050 initialized"));
+}
+
+void initializeGPS() {
+  Serial2.begin(GPS_BAUDRATE, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+  Serial.println(F("GPS initialized"));
+}
+
+void initializeTSL2561() {
+  if(!tsl.begin()) {
+    Serial.println(F("TSL2561 not found! Check wiring."));
+    while(1) delay(10);
+  }
+  
+  tsl.enableAutoRange(true);
+  tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_402MS);
+  Serial.println(F("TSL2561 initialized"));
+}
+
+void initializeML8511() {
+  uv.enable();
+  uv.setVoltsPerStep(3.3, 4095);  // ESP32 ADC calibration
+  Serial.println(F("ML8511 initialized"));
+}
+
+void readAndDisplaySensors() {
+  // Read all sensors
+  float temp_bmp = bmp.readTemperature();
+  float pressure = bmp.readPressure() / 100.0F;
+  float altitude = bmp.readAltitude(1013.25);
+  float humidity = dht.readHumidity();
+  
+  int16_t accX, accY, accZ, gyroX, gyroY, gyroZ;
+  readMPU6050(&accX, &accY, &accZ, &gyroX, &gyroY, &gyroZ);
+  
+  // Read light sensor
+  sensors_event_t event;
+  tsl.getEvent(&event);
+  float lux = event.light;
+  
+  // Read UV sensor
+  float uvIntensity = uv.getUV(HIGH);
+  float duvIndex = uv.estimateDUVindex(uvIntensity);
+  
+  // Display all sensor data
+  Serial.print(F("DHT:"));
+  Serial.print(humidity); Serial.print(F("%,"));
+  Serial.print(temp_bmp); Serial.print(F("°C|"));
+
+  Serial.print(F("BMP:"));
+  Serial.print(pressure); Serial.print(F("hPa,"));
+  Serial.print(altitude); Serial.print(F("m@"));
+  
+  Serial.print(F("MPU:-"));
+  Serial.print(F("x:")); Serial.print(accX); Serial.print(F(","));
+  Serial.print(F("y:")); Serial.print(accY); Serial.print(F(","));
+  Serial.print(F("z:")); Serial.print(accZ); Serial.print(F("|"));
+  Serial.print(F("gx:")); Serial.print(gyroX); Serial.print(F(","));
+  Serial.print(F("gy:")); Serial.print(gyroY); Serial.print(F(","));
+  Serial.print(F("gz:")); Serial.print(gyroZ); Serial.print(F("&"));
+
+  Serial.print(F("LIGHT:"));
+  if (lux >= 0) {
+    Serial.print(lux); Serial.print(F("lux,"));
+  } else {
+    Serial.print(F("OVF,"));
+  }
+
+  Serial.print(F("UV:"));
+  Serial.print(uvIntensity); Serial.print(F("mW/cm² (DUV: "));
+  Serial.print(duvIndex); Serial.print(F("),"));
+
+  Serial.print(F("GPS:"));
+  if (gps.location.isValid()) {
+    Serial.print(gps.location.lat(), 6);
+    Serial.print(F(","));
+    Serial.print(gps.location.lng(), 6);
+    if (gps.altitude.isValid()) {
+      Serial.print(F(","));
+      Serial.print(gps.altitude.meters());
+      Serial.print(F("m"));
+    }
+    Serial.print(F(" | Date: "));
+    if (gps.date.isValid()) {
+      Serial.print(gps.date.month());
+      Serial.print(F("/"));
+      Serial.print(gps.date.day());
+      Serial.print(F("/"));
+      Serial.print(gps.date.year());
+    } else {
+      Serial.print(F("Invalid"));
+    }
+    Serial.print(F(" "));
+    if (gps.time.isValid()) {
+      if (gps.time.hour() < 10) Serial.print(F("0"));
+      Serial.print(gps.time.hour());
+      Serial.print(F(":"));
+      if (gps.time.minute() < 10) Serial.print(F("0"));
+      Serial.print(gps.time.minute());
+      Serial.print(F(":"));
+      if (gps.time.second() < 10) Serial.print(F("0"));
+      Serial.print(gps.time.second());
+    } else {
+      Serial.print(F("INVALID"));
+    }
+  } else {
+    Serial.print(F("NoFix"));
+  }
+
+  Serial.println();
+}
+
+void readMPU6050(int16_t* accX, int16_t* accY, int16_t* accZ, 
+                 int16_t* gyroX, int16_t* gyroY, int16_t* gyroZ) {
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(0x3B);  // Start with ACCEL_XOUT_H register
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU_ADDR, 14, true);
+
+  *accX = Wire.read() << 8 | Wire.read();
+  *accY = Wire.read() << 8 | Wire.read();
+  *accZ = Wire.read() << 8 | Wire.read();
+  Wire.read() << 8 | Wire.read();  // Skip temperature
+  *gyroX = Wire.read() << 8 | Wire.read();
+  *gyroY = Wire.read() << 8 | Wire.read();
+  *gyroZ = Wire.read() << 8 | Wire.read();
+}
