@@ -1,6 +1,6 @@
 ### This is an overview of the current projects within the repository. Detailed documentation is available in the DOCUMENTATION.md file within the Projects.
 
-## Digital Twinning – Adaptive Belt Monitoring. SIEMENS Internship Graduation Project.
+## Digital Twinning – Adaptive Belt Monitoring. SIEMENS & NTI Internship Graduation Project.
 
 This project focuses on developing an intelligent belt-monitoring system for industrial applications. The system continuously analyzes belt behavior (such as speed, tension, and anomalies) and adapts dynamically to changing operating conditions.
 
