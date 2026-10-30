@@ -22,6 +22,25 @@ Key features include:
 - Communication interface simulation (sending/receiving data)
 - Interaction with simulated onboard subsystems
 
+## Linked List Implementation in C
+
+<br>
+
+This project implements a modular linked list library in C, focusing on clean code structure and reusable components.
+
+<br>
+
+Key features include:
+
+- Singly linked list implementation with dynamic memory allocation
+- Core operations such as insertion, deletion, edit and search.
+- Modular design with separated source and header files
+- Basic error handling and memory management practices
+
+<br>
+
+The project demonstrates understanding of data structures, pointers, memory management, and modular software development in C.
+
 ## PWM Drawer - Embedded Systems Diploma Graduation Project.
 
 This project is a visualization and signal generation tool for Pulse Width Modulation (PWM). It allows users to generate, analyze, and understand PWM signals clearly and interactively.
