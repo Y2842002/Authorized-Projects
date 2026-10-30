@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1706648459 source:c:\users\yousef osama mohamed\desktop\database\database\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1706651472 source:c:\users\yousef osama mohamed\desktop\database\database\sdbapp.c
+	"SDB.h"
+	"STD.h"
+
+1706911271 c:\users\yousef osama mohamed\desktop\database\database\sdb.h
+	"STD.h"
+	<stdbool.h>
+
+1706911236 c:\users\yousef osama mohamed\desktop\database\database\std.h
+
+1706912444 source:c:\users\yousef osama mohamed\desktop\database\database\sdb.c
+	<stdbool.h>
+	<stddef.h>
+	<stdio.h>
+	<stdlib.h>
+	"SDB.h"
+	"STD.h"
+
